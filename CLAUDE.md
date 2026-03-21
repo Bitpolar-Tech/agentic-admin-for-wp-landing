@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-WP Agentic Admin Landing — a single-page landing page promoting the WordPress Agentic Admin plugin.
+Agentic Admin for WP Landing — a single-page landing page promoting the WordPress Agentic Admin plugin.
 
 ### What the Plugin Does
 

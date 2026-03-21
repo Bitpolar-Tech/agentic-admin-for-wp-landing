@@ -1,4 +1,4 @@
-# WP Agentic Admin
+# Agentic Admin for WP
 
 ## Your Private AI Admin for WordPress
 
@@ -8,7 +8,7 @@ Ask questions in plain English. Get intelligent diagnostics, maintenance, and se
 
 ---
 
-## Why WP Agentic Admin?
+## Why Agentic Admin for WP?
 
 ### Your Data Stays Yours
 The AI model runs directly in your browser using WebGPU. Zero data transmission to external servers. Zero third-party dependencies. GDPR compliant by design — because there's nothing to comply with when no data ever leaves.
@@ -20,7 +20,7 @@ No GPU servers. No per-request fees. No monthly subscriptions. The AI runs on yo
 Install the plugin. Open the page. The model downloads once (~1.2 GB) and stays cached. No API keys to configure, no accounts to create, no external services to connect.
 
 ### Actually Intelligent
-This isn't a scripted chatbot. WP Agentic Admin uses a ReAct reasoning loop — the AI observes your site, reasons about what it finds, and adapts its approach step by step. Say "my site feels slow" and watch it diagnose the actual cause.
+This isn't a scripted chatbot. Agentic Admin for WP uses a ReAct reasoning loop — the AI observes your site, reasons about what it finds, and adapts its approach step by step. Say "my site feels slow" and watch it diagnose the actual cause.
 
 ---
 
@@ -138,7 +138,7 @@ When the intent is clear ("flush the cache"), thinking is automatically skipped 
 
 ## Built on WordPress Standards
 
-WP Agentic Admin is built on the **WordPress Abilities API** introduced in WordPress 6.9. It's not a parallel system bolted onto WordPress — it's a native integration.
+Agentic Admin for WP is built on the **WordPress Abilities API** introduced in WordPress 6.9. It's not a parallel system bolted onto WordPress — it's a native integration.
 
 - WPCS 3.x compliant PHP
 - WordPress ESLint + Prettier JavaScript
@@ -180,7 +180,7 @@ No compatible GPU? No problem. Configure an external OpenAI-compatible provider 
 
 ## Compare
 
-| | WP Agentic Admin | Cloud AI Assistants | WP-CLI Scripts |
+| | Agentic Admin for WP | Cloud AI Assistants | WP-CLI Scripts |
 |---|---|---|---|
 | **Privacy** | 100% local | Data sent to cloud | Local but no reasoning |
 | **Cost** | Free | $20+/month | Free but manual |
@@ -213,7 +213,7 @@ Launch a live demo instantly in WordPress Playground — no installation require
 ## Get Started
 
 1. Upload and activate the plugin
-2. Click **WP Agentic Admin** in the admin menu
+2. Click **Agentic Admin for WP** in the admin menu
 3. Wait for the one-time model download
 4. Type your first question: *"check my site health"*
 
