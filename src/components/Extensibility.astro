@@ -1,0 +1,58 @@
+---
+const standards = [
+  'WPCS 3.x compliant PHP',
+  'WordPress ESLint + Prettier JavaScript',
+  'REST API endpoints following WordPress conventions',
+  'Compatible with WordPress multisite',
+];
+---
+
+<section class="py-20 md:py-32 relative">
+  <div class="absolute inset-0 bg-gradient-to-b from-transparent via-indigo-950/5 to-transparent"></div>
+
+  <div class="section-container relative">
+    <div class="max-w-2xl mb-12 reveal">
+      <p class="text-sm font-medium text-indigo-400 mb-3 tracking-wide uppercase">For Developers</p>
+      <h2 class="text-3xl sm:text-4xl font-bold text-slate-100 tracking-tight">
+        Built on WordPress Standards
+      </h2>
+      <p class="text-slate-400 mt-4 leading-relaxed">
+        Built on the WordPress Abilities API introduced in WordPress 6.9. Not a parallel system bolted onto WordPress — a native integration.
+      </p>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+      <!-- Standards list -->
+      <div class="space-y-3 reveal">
+        {standards.map((item) => (
+          <div class="flex items-center gap-3">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round" class="shrink-0"><path d="M20 6L9 17l-5-5"/></svg>
+            <span class="text-sm text-slate-400">{item}</span>
+          </div>
+        ))}
+
+        <div class="pt-6">
+          <h3 class="text-base font-semibold text-slate-200 mb-2">Extensible by Design</h3>
+          <p class="text-sm text-slate-500 leading-relaxed">
+            Third-party plugins can register their own abilities. The AI automatically discovers and can invoke any registered ability. No router changes, no manifest updates — just register and go.
+          </p>
+        </div>
+      </div>
+
+      <!-- Code example -->
+      <div class="reveal">
+        <div class="rounded-xl border border-white/[0.06] bg-navy-900/80 overflow-hidden">
+          <div class="flex items-center gap-2 px-4 py-2.5 border-b border-white/[0.04]">
+            <span class="text-xs text-slate-600 font-mono">functions.php</span>
+          </div>
+          <pre class="p-5 text-sm leading-relaxed overflow-x-auto"><code class="font-mono"><span class="text-indigo-400">register_agentic_ability</span><span class="text-slate-500">(</span> <span class="text-emerald-400">'my-plugin/my-ability'</span><span class="text-slate-500">,</span> <span class="text-amber-400">array</span><span class="text-slate-500">(</span>
+    <span class="text-emerald-400">'label'</span>       <span class="text-slate-500">=></span> <span class="text-emerald-400">'My Custom Ability'</span><span class="text-slate-500">,</span>
+    <span class="text-emerald-400">'description'</span> <span class="text-slate-500">=></span> <span class="text-emerald-400">'Does something useful'</span><span class="text-slate-500">,</span>
+    <span class="text-emerald-400">'callback'</span>    <span class="text-slate-500">=></span> <span class="text-emerald-400">'my_ability_callback'</span><span class="text-slate-500">,</span>
+    <span class="text-emerald-400">'input_schema'</span> <span class="text-slate-500">=></span> <span class="text-amber-400">array</span><span class="text-slate-500">(</span> <span class="text-slate-600">/* ... */</span> <span class="text-slate-500">),</span>
+<span class="text-slate-500">) );</span></code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

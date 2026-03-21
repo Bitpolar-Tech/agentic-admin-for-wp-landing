@@ -1,0 +1,40 @@
+---
+const stats = [
+  {
+    icon: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>',
+    label: '100% Local',
+    detail: 'No cloud. Ever.',
+  },
+  {
+    icon: '<circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/><path d="M16 8l-5.5 7L8 12.5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>',
+    label: 'Zero Cost',
+    detail: 'No subscriptions.',
+  },
+  {
+    icon: '<rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" fill="none"/><rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" fill="none"/><rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" fill="none"/><rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" fill="none"/>',
+    label: '30+ Abilities',
+    detail: 'Built-in tools.',
+  },
+  {
+    icon: '<path d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>',
+    label: 'One-Click Setup',
+    detail: 'Install and go.',
+  },
+];
+---
+
+<section class="relative -mt-4 pb-16 md:pb-24">
+  <div class="section-container">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 reveal-stagger">
+      {stats.map((stat) => (
+        <div class="flex items-center gap-3 px-5 py-4 rounded-xl border border-white/[0.04] bg-white/[0.02]">
+          <svg width="20" height="20" viewBox="0 0 24 24" class="text-indigo-400 shrink-0" set:html={stat.icon} />
+          <div>
+            <div class="text-sm font-semibold text-slate-200">{stat.label}</div>
+            <div class="text-xs text-slate-500">{stat.detail}</div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

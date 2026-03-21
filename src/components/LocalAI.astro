@@ -1,0 +1,100 @@
+---
+const models = [
+  {
+    name: 'Qwen 3 1.7B',
+    badge: 'Default',
+    badgeColor: '#34d399',
+    size: '~1.2 GB',
+    speed: '2-3s responses',
+    feature: 'Native function calling',
+    accuracy: 93,
+    context: '32K tokens',
+  },
+  {
+    name: 'Qwen 2.5 7B',
+    badge: 'Optional',
+    badgeColor: '#818cf8',
+    size: '~4.5 GB',
+    speed: 'Enhanced reasoning',
+    feature: '32K context window',
+    accuracy: 96,
+    context: '32K tokens',
+  },
+];
+---
+
+<section class="py-20 md:py-32 relative">
+  <div class="absolute inset-0 bg-gradient-to-b from-transparent via-indigo-950/5 to-transparent"></div>
+
+  <div class="section-container relative">
+    <div class="max-w-2xl mb-12 reveal">
+      <p class="text-sm font-medium text-indigo-400 mb-3 tracking-wide uppercase">Local Models</p>
+      <h2 class="text-3xl sm:text-4xl font-bold text-slate-100 tracking-tight">
+        Powered by Local AI
+      </h2>
+      <p class="text-slate-400 mt-4 leading-relaxed">
+        Choose the model that fits your hardware. Both run entirely in your browser via WebGPU — no server required.
+      </p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 gap-5 mb-10 reveal-stagger">
+      {models.map((model) => (
+        <div class="p-6 sm:p-8 rounded-2xl border border-white/[0.04] bg-white/[0.015]">
+          <div class="flex items-center gap-3 mb-6">
+            <h3 class="text-lg font-semibold text-slate-200">{model.name}</h3>
+            <span
+              class="px-2 py-0.5 rounded text-xs font-medium"
+              style={`background: ${model.badgeColor}15; color: ${model.badgeColor};`}
+            >
+              {model.badge}
+            </span>
+          </div>
+
+          <!-- Accuracy ring -->
+          <div class="flex items-center gap-5 mb-6">
+            <div class="relative w-16 h-16 shrink-0">
+              <svg viewBox="0 0 36 36" class="w-full h-full -rotate-90">
+                <circle cx="18" cy="18" r="15.5" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="3" />
+                <circle
+                  cx="18" cy="18" r="15.5" fill="none"
+                  stroke={model.badgeColor}
+                  stroke-width="3"
+                  stroke-dasharray={`${model.accuracy * 0.974} 100`}
+                  stroke-linecap="round"
+                  class="opacity-80"
+                />
+              </svg>
+              <div class="absolute inset-0 flex items-center justify-center">
+                <span class="text-sm font-bold text-slate-200">{model.accuracy}%</span>
+              </div>
+            </div>
+            <div>
+              <p class="text-sm text-slate-400">End-to-end accuracy</p>
+              <p class="text-xs text-slate-600">on WordPress tasks</p>
+            </div>
+          </div>
+
+          <div class="space-y-2.5">
+            {[model.size, model.speed, model.feature].map((detail) => (
+              <div class="flex items-center gap-2.5 text-sm">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>
+                <span class="text-slate-400">{detail}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Service Worker note -->
+    <div class="reveal p-5 rounded-xl border border-white/[0.04] bg-white/[0.01] flex items-start gap-4">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 mt-0.5">
+        <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>
+      </svg>
+      <div>
+        <p class="text-sm font-medium text-slate-300 mb-1">Service Worker Persistence</p>
+        <p class="text-sm text-slate-500">The model stays loaded in GPU memory across page navigations. Navigate from Posts to Settings to Plugins — the AI is instantly available on every page. No reloading, no waiting.</p>
+      </div>
+    </div>
+  </div>
+</section>

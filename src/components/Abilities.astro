@@ -1,0 +1,150 @@
+---
+const categories = [
+  {
+    id: 'diagnostics',
+    label: 'Diagnostics',
+    abilities: [
+      { name: 'Site Health Check', desc: 'Comprehensive WordPress health status at a glance' },
+      { name: 'Error Log Reader', desc: 'Read and search debug.log with keyword and severity filters' },
+      { name: 'Update Checker', desc: 'Scan for pending WordPress, plugin, and theme updates' },
+      { name: 'Disk Usage', desc: 'Check wp-content storage consumption' },
+      { name: 'OPcache Status', desc: 'Inspect PHP opcode cache configuration' },
+      { name: 'Backup Verification', desc: 'Confirm your backup plugin is active and recent' },
+    ],
+  },
+  {
+    id: 'maintenance',
+    label: 'Maintenance',
+    abilities: [
+      { name: 'Cache Flush', desc: 'Clear WordPress object cache instantly' },
+      { name: 'Database Optimization', desc: 'Optimize MySQL/MariaDB tables and reclaim space' },
+      { name: 'Transient Cleanup', desc: 'Purge expired or all transients' },
+      { name: 'Revision Cleanup', desc: 'Remove old post revisions with preview before delete' },
+      { name: 'Rewrite Flush', desc: 'Regenerate permalink rewrite rules' },
+    ],
+  },
+  {
+    id: 'security',
+    label: 'Security',
+    abilities: [
+      { name: 'Security Scan', desc: 'Audit debug mode, file permissions, and common vulnerabilities' },
+      { name: 'Core Checksum Verification', desc: 'Detect tampered WordPress core files' },
+      { name: 'Plugin Checksum Verification', desc: 'Verify plugin file integrity against WordPress.org' },
+      { name: 'Database Malware Scan', desc: 'Detect injected scripts, base64 payloads, suspicious accounts' },
+      { name: 'Read-Only SQL Queries', desc: 'Run SELECT queries safely against your database' },
+    ],
+  },
+  {
+    id: 'management',
+    label: 'Site Management',
+    abilities: [
+      { name: 'Plugin Manager', desc: 'List, activate, and deactivate plugins by name' },
+      { name: 'Theme Browser', desc: 'View all installed themes and their status' },
+      { name: 'User Directory', desc: 'List users with roles and capabilities' },
+      { name: 'Content Browser', desc: 'Browse posts by type, status, and author' },
+      { name: 'Comment Statistics', desc: 'Get discussion metrics at a glance' },
+      { name: 'Cron Inspector', desc: 'View scheduled events with overdue detection' },
+    ],
+  },
+  {
+    id: 'content',
+    label: 'Content & Files',
+    abilities: [
+      { name: 'File Editor', desc: 'Edit WordPress files with automatic backup before changes' },
+      { name: 'Web Search', desc: 'Search documentation and troubleshooting guides' },
+      { name: 'Block Browser', desc: 'Explore available Gutenberg blocks' },
+    ],
+  },
+];
+---
+
+<section id="abilities" class="py-20 md:py-32">
+  <div class="section-container">
+    <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+      <!-- Left: text + screenshot -->
+      <div>
+        <div class="mb-8 reveal">
+          <p class="text-sm font-medium text-indigo-400 mb-3 tracking-wide uppercase">Capabilities</p>
+          <h2 class="text-3xl sm:text-4xl font-bold text-slate-100 tracking-tight">
+            30+ Built-In Abilities
+          </h2>
+          <p class="text-slate-400 mt-4 leading-relaxed">
+            From diagnostics to security scans, database maintenance to plugin management — every tool a WordPress admin needs, accessible through natural language.
+          </p>
+        </div>
+
+        <div class="reveal rounded-xl overflow-hidden border border-white/[0.06] shadow-2xl shadow-black/30">
+          <img
+            src="/images/abilities-overview.png"
+            alt="WP Agentic Admin abilities panel showing available tools"
+            width="800"
+            height="600"
+            loading="lazy"
+            class="w-full h-auto"
+          />
+        </div>
+      </div>
+
+      <!-- Right: tabbed abilities -->
+      <div class="reveal">
+        <div class="abilities-tabs">
+          {categories.map((cat, i) => (
+            <input
+              type="radio"
+              name="ability-tab"
+              id={`tab-${cat.id}`}
+              class="sr-only peer"
+              checked={i === 0}
+            />
+          ))}
+
+          <div class="flex flex-wrap gap-2 mb-6" role="tablist">
+            {categories.map((cat) => (
+              <label
+                for={`tab-${cat.id}`}
+                class="tab-label px-3.5 py-1.5 rounded-lg text-sm cursor-pointer transition-all duration-200 text-slate-500 hover:text-slate-300 border border-transparent"
+                role="tab"
+              >
+                {cat.label}
+              </label>
+            ))}
+          </div>
+
+          {categories.map((cat) => (
+            <div class={`tab-panel tab-panel-${cat.id} space-y-2`} role="tabpanel">
+              {cat.abilities.map((ability) => (
+                <div class="px-4 py-3 rounded-lg border border-white/[0.03] bg-white/[0.01] hover:bg-white/[0.025] transition-colors">
+                  <p class="text-sm font-medium text-slate-300">{ability.name}</p>
+                  <p class="text-xs text-slate-500 mt-0.5">{ability.desc}</p>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* CSS-only tabs using radio inputs */
+  .abilities-tabs input[id="tab-diagnostics"]:checked ~ .flex label[for="tab-diagnostics"],
+  .abilities-tabs input[id="tab-maintenance"]:checked ~ .flex label[for="tab-maintenance"],
+  .abilities-tabs input[id="tab-security"]:checked ~ .flex label[for="tab-security"],
+  .abilities-tabs input[id="tab-management"]:checked ~ .flex label[for="tab-management"],
+  .abilities-tabs input[id="tab-content"]:checked ~ .flex label[for="tab-content"] {
+    color: #c7d2fe;
+    background: rgba(99, 102, 241, 0.1);
+    border-color: rgba(99, 102, 241, 0.2);
+  }
+
+  .tab-panel { display: none; }
+
+  .abilities-tabs input[id="tab-diagnostics"]:checked ~ .tab-panel-diagnostics,
+  .abilities-tabs input[id="tab-maintenance"]:checked ~ .tab-panel-maintenance,
+  .abilities-tabs input[id="tab-security"]:checked ~ .tab-panel-security,
+  .abilities-tabs input[id="tab-management"]:checked ~ .tab-panel-management,
+  .abilities-tabs input[id="tab-content"]:checked ~ .tab-panel-content {
+    display: block;
+  }
+</style>

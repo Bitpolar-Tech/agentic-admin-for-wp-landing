@@ -1,0 +1,85 @@
+---
+---
+
+<section class="py-20 md:py-32">
+  <div class="section-container">
+    <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+      <!-- Text -->
+      <div class="reveal">
+        <p class="text-sm font-medium text-indigo-400 mb-3 tracking-wide uppercase">Transparency</p>
+        <h2 class="text-3xl sm:text-4xl font-bold text-slate-100 tracking-tight mb-5">
+          Thinking Out Loud
+        </h2>
+        <p class="text-slate-400 leading-relaxed mb-4">
+          Watch the AI reason in real time. Thinking blocks stream live in the chat, showing you exactly how the AI arrives at its decisions. Full transparency into the reasoning process — no black box.
+        </p>
+        <p class="text-slate-500 text-sm leading-relaxed">
+          When the intent is clear — like "flush the cache" — thinking is automatically skipped for faster execution.
+        </p>
+      </div>
+
+      <!-- Visual: Feedback screenshot + thinking animation -->
+      <div class="space-y-5 reveal">
+        <!-- Thinking bubble mock -->
+        <div class="rounded-xl border border-white/[0.06] bg-navy-900/60 p-5">
+          <div class="flex items-start gap-3 mb-4">
+            <div class="w-7 h-7 rounded-lg bg-indigo-500/15 flex items-center justify-center shrink-0 mt-0.5">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+              </svg>
+            </div>
+            <div class="flex-1">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-xs font-medium text-indigo-400/70">Thinking</span>
+                <div class="thinking-dots flex gap-0.5">
+                  <span class="w-1 h-1 rounded-full bg-indigo-400/40"></span>
+                  <span class="w-1 h-1 rounded-full bg-indigo-400/40"></span>
+                  <span class="w-1 h-1 rounded-full bg-indigo-400/40"></span>
+                </div>
+              </div>
+              <p class="text-xs text-slate-500 leading-relaxed font-mono">
+                The user reports their site feels slow. I should start with a site health check to get an overview, then examine the error log for any performance-related warnings. If the database is large, I'll optimize it...
+              </p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2 pt-3 border-t border-white/[0.04]">
+            <div class="w-1.5 h-1.5 rounded-full bg-emerald-400"></div>
+            <span class="text-xs text-slate-500">Reasoning visible in real time</span>
+          </div>
+        </div>
+
+        <!-- Feedback screenshot -->
+        <div class="rounded-xl overflow-hidden border border-white/[0.06] shadow-xl shadow-black/20">
+          <img
+            src="/images/feedback-collection.png"
+            alt="WP Agentic Admin feedback collection showing response ratings system"
+            width="800"
+            height="600"
+            loading="lazy"
+            class="w-full h-auto"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .thinking-dots span {
+    animation: thinking 1.4s ease-in-out infinite;
+  }
+
+  .thinking-dots span:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+
+  .thinking-dots span:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+
+  @keyframes thinking {
+    0%, 60%, 100% { opacity: 0.3; transform: scale(1); }
+    30% { opacity: 1; transform: scale(1.3); }
+  }
+</style>

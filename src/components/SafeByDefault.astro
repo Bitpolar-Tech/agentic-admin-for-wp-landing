@@ -1,0 +1,43 @@
+---
+const safeguards = [
+  { title: 'Confirmation required', desc: 'For all destructive actions — deactivating plugins, deleting revisions, editing files', icon: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>' },
+  { title: 'Automatic backups', desc: 'Before every file modification', icon: '<path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/>' },
+  { title: 'Read-only database', desc: 'Only SELECT, SHOW, and DESCRIBE allowed', icon: '<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>' },
+  { title: '10-iteration safety limit', desc: 'On reasoning loops — prevents runaway AI', icon: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>' },
+  { title: 'Repeated call detection', desc: 'Prevents the AI from getting stuck in loops', icon: '<polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>' },
+];
+---
+
+<section class="py-20 md:py-32">
+  <div class="section-container">
+    <div class="max-w-2xl mb-12 reveal">
+      <p class="text-sm font-medium text-emerald-400 mb-3 tracking-wide uppercase">Safety</p>
+      <h2 class="text-3xl sm:text-4xl font-bold text-slate-100 tracking-tight">
+        Safe by Default
+      </h2>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 reveal-stagger">
+      {safeguards.map((item) => (
+        <div class="flex items-start gap-3.5 p-5 rounded-xl border border-white/[0.04] bg-white/[0.01]">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 mt-0.5" set:html={item.icon} />
+          <div>
+            <p class="text-sm font-semibold text-slate-300 mb-0.5">{item.title}</p>
+            <p class="text-xs text-slate-500">{item.desc}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- WebGPU fallback note -->
+    <div class="mt-8 reveal p-5 rounded-xl border border-white/[0.04] bg-white/[0.01] flex items-start gap-4">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0 mt-0.5">
+        <circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>
+      </svg>
+      <div>
+        <p class="text-sm font-medium text-slate-300 mb-1">Works Without WebGPU Too</p>
+        <p class="text-sm text-slate-500">No compatible GPU? Configure an external OpenAI-compatible provider as a fallback, or connect to a local Ollama instance on your network. The plugin adapts to your setup.</p>
+      </div>
+    </div>
+  </div>
+</section>

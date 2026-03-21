@@ -1,0 +1,64 @@
+---
+const workflows = [
+  {
+    name: 'Site Cleanup',
+    desc: 'Flush cache, optimize database, check health',
+    prompt: 'run a full cleanup',
+    color: '#34d399',
+  },
+  {
+    name: 'Performance Check',
+    desc: 'Health diagnostics + error log review',
+    prompt: 'check my site performance',
+    color: '#818cf8',
+  },
+  {
+    name: 'Plugin Audit',
+    desc: 'List all plugins + cross-reference with site health',
+    prompt: 'audit my plugins',
+    color: '#f59e0b',
+  },
+  {
+    name: 'Database Maintenance',
+    desc: 'Optimize tables + flush cache',
+    prompt: 'optimize the database',
+    color: '#fb7185',
+  },
+  {
+    name: 'Security Audit',
+    desc: 'Verify core files, plugin files, and scan for compromise',
+    prompt: 'am I hacked?',
+    color: '#a78bfa',
+  },
+];
+---
+
+<section class="py-20 md:py-32 relative">
+  <div class="absolute inset-0 bg-gradient-to-b from-transparent via-purple-950/5 to-transparent"></div>
+
+  <div class="section-container relative">
+    <div class="max-w-2xl mb-12 reveal">
+      <p class="text-sm font-medium text-indigo-400 mb-3 tracking-wide uppercase">Workflows</p>
+      <h2 class="text-3xl sm:text-4xl font-bold text-slate-100 tracking-tight">
+        Complex operations, one command
+      </h2>
+      <p class="text-slate-400 mt-4 leading-relaxed">
+        Each workflow runs multiple abilities in sequence, with conditional steps that adapt based on what each step discovers.
+      </p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 reveal-stagger">
+      {workflows.map((wf) => (
+        <div class="relative p-6 rounded-xl border border-white/[0.04] bg-white/[0.015] hover:bg-white/[0.025] transition-colors duration-300 overflow-hidden">
+          <div class="absolute top-0 left-0 w-1 h-full" style={`background: ${wf.color}40;`}></div>
+          <h3 class="text-base font-semibold text-slate-200 mb-1.5">{wf.name}</h3>
+          <p class="text-sm text-slate-500 mb-4">{wf.desc}</p>
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/[0.03] border border-white/[0.04]">
+            <span class="text-xs text-slate-500">Try:</span>
+            <span class="text-xs text-slate-300 font-mono">"{wf.prompt}"</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

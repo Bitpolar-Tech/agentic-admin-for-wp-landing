@@ -1,0 +1,125 @@
+---
+const steps = [
+  {
+    number: '01',
+    title: 'You type a question',
+    detail: '"Something is wrong with my site"',
+    color: '#818cf8',
+  },
+  {
+    number: '02',
+    title: 'Message Router analyzes intent',
+    detail: 'Determines which abilities to invoke',
+    color: '#6366f1',
+  },
+  {
+    number: '03',
+    title: 'ReAct Agent starts reasoning',
+    detail: 'Observe → Reason → Act — adapting at each step',
+    color: '#8b5cf6',
+    substeps: [
+      { action: 'Check site health', result: 'Database is 2.5 GB, no cache configured' },
+      { action: 'Optimize database', result: 'Optimized 15 tables, freed 125 MB' },
+      { action: 'Check for errors', result: 'No critical errors in debug.log' },
+    ],
+  },
+  {
+    number: '04',
+    title: 'AI summarizes findings',
+    detail: 'Clear, actionable report with recommendations',
+    color: '#a78bfa',
+  },
+];
+---
+
+<section id="how-it-works" class="py-20 md:py-32 relative">
+  <div class="absolute inset-0 bg-gradient-to-b from-transparent via-indigo-950/5 to-transparent"></div>
+
+  <div class="section-container relative">
+    <div class="max-w-2xl mb-16 reveal">
+      <p class="text-sm font-medium text-indigo-400 mb-3 tracking-wide uppercase">How It Works</p>
+      <h2 class="text-3xl sm:text-4xl font-bold text-slate-100 tracking-tight">
+        AI that reasons, not just responds
+      </h2>
+      <p class="text-slate-400 mt-4 leading-relaxed">
+        The AI decides what to do based on what it discovers — not from a fixed script.
+      </p>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+      <!-- Steps -->
+      <div class="space-y-0 reveal">
+        {steps.map((step, i) => (
+          <div class="relative pl-12 pb-10 last:pb-0">
+            {/* Connecting line */}
+            {i < steps.length - 1 && (
+              <div class="absolute left-[18px] top-10 bottom-0 w-px bg-gradient-to-b from-white/10 to-transparent"></div>
+            )}
+
+            {/* Step number */}
+            <div
+              class="absolute left-0 top-0 w-9 h-9 rounded-lg flex items-center justify-center text-xs font-bold"
+              style={`background: ${step.color}15; color: ${step.color}; border: 1px solid ${step.color}25;`}
+            >
+              {step.number}
+            </div>
+
+            <h3 class="text-base font-semibold text-slate-200 mb-1">{step.title}</h3>
+            <p class="text-sm text-slate-500">{step.detail}</p>
+
+            {step.substeps && (
+              <div class="mt-4 space-y-2.5">
+                {step.substeps.map((sub) => (
+                  <div class="pl-4 border-l-2 border-indigo-500/20">
+                    <p class="text-sm text-slate-300">{sub.action}</p>
+                    <p class="text-xs text-slate-500 mt-0.5">{sub.result}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      <!-- Terminal example -->
+      <div class="reveal">
+        <div class="rounded-xl border border-white/[0.06] bg-navy-900/80 overflow-hidden">
+          <div class="flex items-center gap-2 px-4 py-3 border-b border-white/[0.04]">
+            <div class="w-2.5 h-2.5 rounded-full bg-red-500/60"></div>
+            <div class="w-2.5 h-2.5 rounded-full bg-yellow-500/60"></div>
+            <div class="w-2.5 h-2.5 rounded-full bg-green-500/60"></div>
+            <span class="ml-2 text-xs text-slate-600 font-mono">WP Agentic Admin</span>
+          </div>
+          <div class="p-5 font-mono text-sm space-y-4">
+            <div>
+              <span class="text-slate-500">You:</span>
+              <span class="text-slate-300 ml-2">Something is wrong with my site</span>
+            </div>
+            <div class="border-l-2 border-indigo-500/30 pl-4 space-y-3">
+              <div>
+                <p class="text-indigo-400/60 text-xs">thinking...</p>
+                <p class="text-slate-400 text-xs mt-1">Let me check site health first</p>
+              </div>
+              <div>
+                <p class="text-indigo-400/60 text-xs">action: site-health-check</p>
+                <p class="text-yellow-400/70 text-xs mt-1">→ Database: 2.5 GB, no cache configured</p>
+              </div>
+              <div>
+                <p class="text-indigo-400/60 text-xs">action: db-optimize</p>
+                <p class="text-emerald-400/70 text-xs mt-1">→ Optimized 15 tables, freed 125 MB</p>
+              </div>
+              <div>
+                <p class="text-indigo-400/60 text-xs">action: error-log-read</p>
+                <p class="text-emerald-400/70 text-xs mt-1">→ No critical errors found</p>
+              </div>
+            </div>
+            <div class="pt-2 border-t border-white/[0.04]">
+              <span class="text-slate-500">AI:</span>
+              <span class="text-slate-300 ml-2 text-xs leading-relaxed">Your database was bloated at 2.5 GB. I optimized 15 tables and freed 125 MB. No errors found. Consider setting up object caching.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,57 @@
+---
+const features = [
+  { name: 'Privacy', ours: '100% local', cloud: 'Data sent to cloud', cli: 'Local but no reasoning' },
+  { name: 'Cost', ours: 'Free', cloud: '$20+/month', cli: 'Free but manual' },
+  { name: 'Setup', ours: 'One click', cloud: 'API keys, accounts', cli: 'Terminal knowledge' },
+  { name: 'Reasoning', ours: 'Adaptive (ReAct)', cloud: 'Yes', cli: 'None (rigid scripts)' },
+  { name: 'WordPress Native', ours: 'Abilities API', cloud: 'Generic', cli: 'CLI only' },
+  { name: 'Extensible', ours: 'Plugin API', cloud: 'No', cli: 'Limited' },
+  { name: 'Multi-Step', ours: 'Automatic workflows', cloud: 'Manual prompting', cli: 'Manual scripting' },
+  { name: 'Accessible From', ours: 'Any admin page', cloud: 'Separate app', cli: 'Terminal' },
+];
+
+function isPositive(val: string): boolean {
+  const positive = ['100% local', 'Free', 'One click', 'Adaptive (ReAct)', 'Abilities API', 'Plugin API', 'Automatic workflows', 'Any admin page', 'Yes'];
+  return positive.includes(val);
+}
+---
+
+<section id="compare" class="py-20 md:py-32">
+  <div class="section-container">
+    <div class="max-w-2xl mb-12 reveal">
+      <p class="text-sm font-medium text-indigo-400 mb-3 tracking-wide uppercase">Comparison</p>
+      <h2 class="text-3xl sm:text-4xl font-bold text-slate-100 tracking-tight">
+        See the difference
+      </h2>
+    </div>
+
+    <div class="reveal overflow-x-auto -mx-5 px-5">
+      <table class="w-full min-w-[640px] border-collapse">
+        <thead>
+          <tr>
+            <th class="text-left text-sm font-medium text-slate-500 pb-4 pr-4 w-1/4"></th>
+            <th class="text-left text-sm font-semibold text-indigo-400 pb-4 px-4 w-1/4">WP Agentic Admin</th>
+            <th class="text-left text-sm font-medium text-slate-500 pb-4 px-4 w-1/4">Cloud AI Assistants</th>
+            <th class="text-left text-sm font-medium text-slate-500 pb-4 pl-4 w-1/4">WP-CLI Scripts</th>
+          </tr>
+        </thead>
+        <tbody>
+          {features.map((feat, i) => (
+            <tr class={i < features.length - 1 ? 'border-b border-white/[0.03]' : ''}>
+              <td class="py-3.5 pr-4 text-sm font-medium text-slate-400">{feat.name}</td>
+              <td class="py-3.5 px-4">
+                <span class="text-sm text-emerald-400 font-medium">{feat.ours}</span>
+              </td>
+              <td class="py-3.5 px-4">
+                <span class={`text-sm ${isPositive(feat.cloud) ? 'text-slate-300' : 'text-slate-500'}`}>{feat.cloud}</span>
+              </td>
+              <td class="py-3.5 pl-4">
+                <span class={`text-sm ${isPositive(feat.cli) ? 'text-slate-300' : 'text-slate-500'}`}>{feat.cli}</span>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

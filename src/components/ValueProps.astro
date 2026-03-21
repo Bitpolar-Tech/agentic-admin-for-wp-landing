@@ -1,0 +1,54 @@
+---
+const props = [
+  {
+    title: 'Your Data Stays Yours',
+    description: 'The AI model runs directly in your browser using WebGPU. Zero data transmission to external servers. GDPR compliant by design — because there\'s nothing to comply with when no data ever leaves.',
+    icon: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/>',
+    accent: '#818cf8',
+  },
+  {
+    title: 'Zero Cost AI',
+    description: 'No GPU servers. No per-request fees. No monthly subscriptions. The AI runs on your own hardware. A capability that would cost $1,000+/month with cloud AI costs you nothing.',
+    icon: '<line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>',
+    accent: '#34d399',
+  },
+  {
+    title: 'One-Click Setup',
+    description: 'Install the plugin. Open the page. The model downloads once (~1.2 GB) and stays cached. No API keys, no accounts, no external services.',
+    icon: '<path d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5"/>',
+    accent: '#f59e0b',
+  },
+  {
+    title: 'Actually Intelligent',
+    description: 'This isn\'t a scripted chatbot. WP Agentic Admin uses a ReAct reasoning loop — the AI observes your site, reasons about what it finds, and adapts its approach step by step.',
+    icon: '<path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>',
+    accent: '#a78bfa',
+  },
+];
+---
+
+<section id="features" class="py-20 md:py-32">
+  <div class="section-container">
+    <div class="max-w-2xl mb-16 reveal">
+      <p class="text-sm font-medium text-indigo-400 mb-3 tracking-wide uppercase">Why WP Agentic Admin</p>
+      <h2 class="text-3xl sm:text-4xl font-bold text-slate-100 tracking-tight">
+        AI that respects your privacy<br class="hidden sm:block" /> and your wallet
+      </h2>
+    </div>
+
+    <div class="grid sm:grid-cols-2 gap-5 reveal-stagger">
+      {props.map((prop) => (
+        <div class="group relative p-6 sm:p-8 rounded-2xl border border-white/[0.04] bg-white/[0.015] hover:bg-white/[0.03] transition-colors duration-300">
+          <div
+            class="w-10 h-10 rounded-lg flex items-center justify-center mb-5"
+            style={`background: ${prop.accent}12; color: ${prop.accent}`}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={prop.icon} />
+          </div>
+          <h3 class="text-lg font-semibold text-slate-200 mb-2">{prop.title}</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">{prop.description}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

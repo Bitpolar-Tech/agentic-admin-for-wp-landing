@@ -1,0 +1,81 @@
+---
+const links = [
+  { href: '#features', label: 'Features' },
+  { href: '#how-it-works', label: 'How It Works' },
+  { href: '#abilities', label: 'Abilities' },
+  { href: '#compare', label: 'Compare' },
+  { href: '#get-started', label: 'Get Started' },
+];
+---
+
+<nav id="nav" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+  <div class="section-container flex items-center justify-between h-16">
+    <a href="#" class="flex items-center gap-2.5 font-bold text-lg text-slate-100 tracking-tight">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="text-indigo-400">
+        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      WP Agentic Admin
+    </a>
+
+    <div class="hidden md:flex items-center gap-8">
+      {links.map((link) => (
+        <a href={link.href} class="nav-link text-sm text-slate-400 hover:text-slate-200 transition-colors duration-200">
+          {link.label}
+        </a>
+      ))}
+      <a href="https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/pluginslab/wp-agentic-admin/main/.playground/blueprint.json" target="_blank" rel="noopener" class="text-sm font-medium text-indigo-400 hover:text-indigo-300 transition-colors">
+        Try Demo &rarr;
+      </a>
+    </div>
+
+    <button id="mobile-toggle" class="md:hidden p-2 text-slate-400 hover:text-slate-200" aria-label="Toggle menu">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+        <path id="hamburger-icon" d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <div id="mobile-menu" class="md:hidden hidden border-t border-white/5">
+    <div class="section-container py-4 flex flex-col gap-3">
+      {links.map((link) => (
+        <a href={link.href} class="mobile-link text-sm text-slate-400 hover:text-slate-200 py-1.5 transition-colors">
+          {link.label}
+        </a>
+      ))}
+      <a href="https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/pluginslab/wp-agentic-admin/main/.playground/blueprint.json" target="_blank" rel="noopener" class="text-sm font-medium text-indigo-400 py-1.5">
+        Try Demo &rarr;
+      </a>
+    </div>
+  </div>
+</nav>
+
+<style>
+  nav {
+    background: rgba(10, 14, 26, 0.6);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  nav.scrolled {
+    background: rgba(10, 14, 26, 0.9);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  }
+</style>
+
+<script>
+  const nav = document.getElementById('nav')!;
+  const toggle = document.getElementById('mobile-toggle')!;
+  const menu = document.getElementById('mobile-menu')!;
+
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  toggle.addEventListener('click', () => {
+    menu.classList.toggle('hidden');
+  });
+
+  menu.querySelectorAll('a').forEach((a) => {
+    a.addEventListener('click', () => menu.classList.add('hidden'));
+  });
+</script>
