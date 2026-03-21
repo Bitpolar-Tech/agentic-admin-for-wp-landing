@@ -6,7 +6,7 @@ Single-page static landing page for [WP Agentic Admin](https://github.com/plugin
 
 ## Prerequisites
 
-- **Node.js** 20+ (built with v20.16.0)
+- **Node.js** 20+
 - **npm** (comes with Node.js)
 
 ## Quick Start
