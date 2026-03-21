@@ -1,26 +1,44 @@
 ---
 ---
 
-<footer class="border-t border-white/5 py-12 mt-8">
-  <div class="section-container">
-    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
-      <div class="flex items-center gap-2.5 text-slate-500 text-sm">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="text-slate-600">
-          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <span>WP Agentic Admin</span>
-        <span class="text-slate-700">&middot;</span>
-        <span>GPL-2.0-or-later</span>
-      </div>
+<footer class="border-t border-white/5 mt-8">
+  <div class="section-container py-16">
+    <div class="flex flex-col items-center text-center mb-12">
+      <a href="https://hackathon.cloudfest.com/" target="_blank" rel="noopener"><img src="/images/cf-hackathon.png" alt="CloudFest Hackathon" width="280" class="hackathon-logo-large mb-5" /></a>
+      <p class="text-slate-400 text-base">Proudly built during <strong class="text-slate-300">CloudFest Hackathon 2026</strong></p>
+    </div>
 
-      <div class="flex items-center gap-6 text-sm">
-        <a href="https://github.com/pluginslab/wp-agentic-admin" target="_blank" rel="noopener" class="text-slate-500 hover:text-slate-300 transition-colors">
-          GitHub
-        </a>
-        <a href="https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/pluginslab/wp-agentic-admin/main/.playground/blueprint.json" target="_blank" rel="noopener" class="text-slate-500 hover:text-slate-300 transition-colors">
-          WordPress Playground
-        </a>
+    <div class="border-t border-white/5 pt-8">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="flex items-center gap-2.5 text-slate-500 text-sm">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="text-slate-600">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>WP Agentic Admin</span>
+          <span class="text-slate-700">&middot;</span>
+          <span>GPL-2.0-or-later</span>
+        </div>
+
+        <div class="flex items-center gap-6 text-sm">
+          <a href="https://github.com/pluginslab/wp-agentic-admin" target="_blank" rel="noopener" class="text-slate-500 hover:text-slate-300 transition-colors">
+            GitHub
+          </a>
+          <a href="https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/pluginslab/wp-agentic-admin/main/.playground/blueprint.json" target="_blank" rel="noopener" class="text-slate-500 hover:text-slate-300 transition-colors">
+            WordPress Playground
+          </a>
+        </div>
       </div>
     </div>
   </div>
 </footer>
+
+<style>
+  .hackathon-logo-large {
+    height: auto;
+    opacity: 0.9;
+    transition: opacity 0.3s ease;
+  }
+  .hackathon-logo-large:hover {
+    opacity: 1;
+  }
+</style>
