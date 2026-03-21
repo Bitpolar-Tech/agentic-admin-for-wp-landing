@@ -2,7 +2,7 @@
 
 Single-page static landing page for [Agentic Admin for WP](https://github.com/pluginslab/wp-agentic-admin), an AI-powered WordPress admin assistant that runs entirely in the browser.
 
-**Live site:** https://bitpolar-tech.github.io/wp-agentic-admin-landing
+**Live site:** https://bitpolar-tech.github.io/agentic-admin-for-wp-landing
 
 ## Prerequisites
 
