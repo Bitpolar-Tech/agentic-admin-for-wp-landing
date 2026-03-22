@@ -1,4 +1,9 @@
 ---
+const videos = [
+  { src: 'videos/content-writer.mp4', label: 'AI Content Writer' },
+  { src: 'videos/plugin-abilities.mp4', label: 'Plugin Abilities' },
+  { src: 'videos/voice-notes-have-i-been-hacked.mp4', label: 'Voice Security Check' },
+];
 ---
 
 <section class="relative min-h-screen flex items-center pt-16 overflow-hidden">
@@ -41,16 +46,40 @@
         </a>
       </div>
 
-      <!-- Hero Screenshot -->
-      <div class="hero-screenshot-wrapper">
-        <div class="hero-screenshot">
-          <img
-            src={`${import.meta.env.BASE_URL}images/chat-window.png`}
-            alt="Agentic Admin for WP chat interface showing AI assistant with tool categories"
-            width="800"
-            height="600"
-            fetchpriority="high"
-          />
+      <!-- Video Showcase -->
+      <div class="hero-video-wrapper" id="hero-video-deck">
+        <div class="hero-video-deck">
+          {videos.map((video, i) => (
+            <div
+              class={`video-card ${i === 0 ? 'card-front' : i === 1 ? 'card-middle' : 'card-back'}`}
+              data-index={i}
+              data-label={video.label}
+            >
+              <video
+                src={`${import.meta.env.BASE_URL}${video.src}`}
+                muted
+                playsinline
+                preload={i === 0 ? 'auto' : 'metadata'}
+                aria-label={`Demo: ${video.label}`}
+              />
+            </div>
+          ))}
+        </div>
+
+        <!-- Controls -->
+        <div class="video-controls">
+          <div class="video-dots" role="tablist" aria-label="Video demos">
+            {videos.map((video, i) => (
+              <button
+                class={`video-dot ${i === 0 ? 'active' : ''}`}
+                data-dot={i}
+                role="tab"
+                aria-selected={i === 0 ? 'true' : 'false'}
+                aria-label={video.label}
+              />
+            ))}
+          </div>
+          <span class="video-label" id="video-label">{videos[0].label}</span>
         </div>
       </div>
     </div>
@@ -74,36 +103,117 @@
     -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 30%, black 0%, transparent 70%);
   }
 
-  .hero-screenshot-wrapper {
+  /* Video deck */
+  .hero-video-wrapper {
     perspective: 1200px;
   }
 
-  .hero-screenshot {
+  .hero-video-deck {
+    position: relative;
+    aspect-ratio: 3 / 2;
     transform: rotateY(-6deg) rotateX(2deg);
-    border-radius: 12px;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .hero-video-deck:hover {
+    transform: rotateY(-2deg) rotateX(1deg) translateY(-4px);
+  }
+
+  /* Cards */
+  .video-card {
+    position: absolute;
+    inset: 0;
+    border-radius: 10px;
     overflow: hidden;
+    background: #0d1117;
+    cursor: pointer;
+    transition:
+      transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .video-card video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: #0d1117;
+  }
+
+  /* Card states */
+  .card-front {
+    z-index: 3;
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
     box-shadow:
       0 0 0 1px rgba(99, 102, 241, 0.15),
       0 20px 60px -12px rgba(0, 0, 0, 0.5),
       0 0 40px rgba(99, 102, 241, 0.1);
-    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-                box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .hero-screenshot:hover {
-    transform: rotateY(-2deg) rotateX(1deg) translateY(-4px);
+  .card-middle {
+    z-index: 2;
+    transform: translate(14px, 10px) scale(0.95);
+    opacity: 0.5;
     box-shadow:
-      0 0 0 1px rgba(99, 102, 241, 0.25),
-      0 30px 80px -12px rgba(0, 0, 0, 0.6),
-      0 0 60px rgba(99, 102, 241, 0.15);
+      0 0 0 1px rgba(99, 102, 241, 0.08),
+      0 12px 40px -8px rgba(0, 0, 0, 0.4);
   }
 
-  .hero-screenshot img {
-    display: block;
-    width: 100%;
-    height: auto;
+  .card-back {
+    z-index: 1;
+    transform: translate(28px, 20px) scale(0.9);
+    opacity: 0.25;
+    box-shadow:
+      0 0 0 1px rgba(99, 102, 241, 0.04),
+      0 8px 24px -6px rgba(0, 0, 0, 0.3);
   }
 
+  /* Controls */
+  .video-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 20px;
+    padding-left: 4px;
+  }
+
+  .video-dots {
+    display: flex;
+    gap: 6px;
+  }
+
+  .video-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(148, 163, 184, 0.25);
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .video-dot:hover {
+    background: rgba(148, 163, 184, 0.5);
+  }
+
+  .video-dot.active {
+    background: rgba(99, 102, 241, 0.8);
+    box-shadow: 0 0 8px rgba(99, 102, 241, 0.4);
+    width: 20px;
+    border-radius: 4px;
+  }
+
+  .video-label {
+    font-size: 0.8rem;
+    color: rgba(148, 163, 184, 0.5);
+    letter-spacing: 0.02em;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Hackathon logo */
   .hackathon-logo-small {
     height: auto;
     opacity: 0.7;
@@ -113,12 +223,132 @@
     opacity: 0.9;
   }
 
+  /* Responsive */
   @media (max-width: 1023px) {
-    .hero-screenshot {
+    .hero-video-deck {
       transform: none;
     }
-    .hero-screenshot:hover {
+    .hero-video-deck:hover {
       transform: translateY(-4px);
+    }
+    .card-middle {
+      transform: translate(8px, 6px) scale(0.96);
+    }
+    .card-back {
+      transform: translate(16px, 12px) scale(0.92);
+    }
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .video-card {
+      transition: none;
+    }
+    .hero-video-deck {
+      transition: none;
+    }
+    .video-dot {
+      transition: none;
     }
   }
 </style>
+
+<script>
+  const deck = document.getElementById('hero-video-deck');
+  if (deck) {
+    const cards = deck.querySelectorAll<HTMLDivElement>('.video-card');
+    const videoEls = deck.querySelectorAll<HTMLVideoElement>('.video-card video');
+    const dots = deck.querySelectorAll<HTMLButtonElement>('.video-dot');
+    const label = document.getElementById('video-label');
+    const states = ['card-front', 'card-middle', 'card-back'];
+    let current = 0;
+    let isVisible = false;
+
+    function setActive(index: number) {
+      current = index;
+      cards.forEach((card, i) => {
+        const offset = (i - current + cards.length) % cards.length;
+        card.className = `video-card ${states[offset]}`;
+      });
+
+      // Play/pause videos — reset non-active ones to start
+      videoEls.forEach((vid, i) => {
+        if (i === current && isVisible) {
+          vid.currentTime = 0;
+          vid.play().catch(() => {});
+        } else {
+          vid.pause();
+          vid.currentTime = 0;
+        }
+      });
+
+      // Update dots
+      dots.forEach((dot, i) => {
+        const isActive = i === current;
+        dot.classList.toggle('active', isActive);
+        dot.setAttribute('aria-selected', String(isActive));
+      });
+
+      // Update label
+      if (label) {
+        const newLabel = cards[current]?.dataset.label || '';
+        label.style.opacity = '0';
+        setTimeout(() => {
+          label.textContent = newLabel;
+          label.style.opacity = '1';
+        }, 150);
+      }
+    }
+
+    function advance() {
+      setActive((current + 1) % cards.length);
+    }
+
+    // When a video ends, advance to the next one
+    videoEls.forEach((vid, i) => {
+      vid.addEventListener('ended', () => {
+        if (i === current) {
+          advance();
+        }
+      });
+    });
+
+    // Click cards to advance
+    cards.forEach((card) => {
+      card.addEventListener('click', () => {
+        advance();
+      });
+    });
+
+    // Click dots to go to specific video
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', (e) => {
+        e.stopPropagation();
+        setActive(i);
+      });
+    });
+
+    // IntersectionObserver — only play when visible
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible) {
+          videoEls[current]?.play().catch(() => {});
+        } else {
+          videoEls.forEach((v) => v.pause());
+        }
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(deck);
+
+    // Pause when tab hidden
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        videoEls.forEach((v) => v.pause());
+      } else if (isVisible) {
+        videoEls[current]?.play().catch(() => {});
+      }
+    });
+  }
+</script>
