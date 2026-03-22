@@ -1,0 +1,742 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+const base = import.meta.env.BASE_URL;
+
+// --- Data ---
+const topStats = [
+  { value: 32456, label: 'Lines Added', color: 'emerald' },
+  { value: 7925, label: 'Lines Deleted', color: 'red' },
+  { value: 257, label: 'Commits', color: 'indigo' },
+  { value: 62, label: 'PRs Merged', color: 'purple' },
+  { value: 184, label: 'Files Changed', color: 'amber' },
+  { value: 43, label: 'Abilities Built', color: 'cyan' },
+  { value: 121, label: 'New Files Created', color: 'pink' },
+];
+
+const colorMap: Record<string, string> = {
+  emerald: '#34d399',
+  red: '#f87171',
+  indigo: '#818cf8',
+  purple: '#a78bfa',
+  amber: '#fbbf24',
+  cyan: '#22d3ee',
+  pink: '#f472b6',
+};
+
+const velocity = [
+  { num: '~11', unit: 'per hour', label: 'Commits' },
+  { num: '~1,350', unit: 'per hour', label: 'Lines Added' },
+  { num: '~40', unit: 'per day', label: 'New Files' },
+];
+
+const days = [
+  { commits: 80, label: 'Day 1 \u00b7 Mar 20', added: '+20,901', deleted: '\u22125,468', color: '#34d399' },
+  { commits: 130, label: 'Day 2 \u00b7 Mar 21', added: '+11,835', deleted: '\u22122,457', color: '#818cf8' },
+  { commits: 47, label: 'Day 3 \u00b7 Mar 22', added: '+280', deleted: '\u22120', color: '#a78bfa' },
+];
+
+const commitTypes = [
+  { label: 'feat', value: 60, color: '#34d399' },
+  { label: 'merge', value: 77, color: '#1e293b' },
+  { label: 'fix', value: 38, color: '#f87171' },
+  { label: 'docs', value: 27, color: '#a78bfa' },
+  { label: 'refactor', value: 4, color: '#818cf8' },
+  { label: 'test', value: 3, color: '#fbbf24' },
+  { label: 'other', value: 48, color: '#64748b' },
+];
+
+const commitTotal = commitTypes.reduce((s, c) => s + c.value, 0);
+
+// Compute donut paths server-side
+const r = 45, ir = 28, cx = 60, cy = 60;
+let cumulative = 0;
+const donutPaths = commitTypes.map((ct) => {
+  const startAngle = (cumulative / commitTotal) * 2 * Math.PI - Math.PI / 2;
+  cumulative += ct.value;
+  const endAngle = (cumulative / commitTotal) * 2 * Math.PI - Math.PI / 2;
+  const largeArc = (endAngle - startAngle) > Math.PI ? 1 : 0;
+  const x1 = cx + r * Math.cos(startAngle), y1 = cy + r * Math.sin(startAngle);
+  const x2 = cx + r * Math.cos(endAngle), y2 = cy + r * Math.sin(endAngle);
+  const x3 = cx + ir * Math.cos(endAngle), y3 = cy + ir * Math.sin(endAngle);
+  const x4 = cx + ir * Math.cos(startAngle), y4 = cy + ir * Math.sin(startAngle);
+  return {
+    d: `M${x1},${y1} A${r},${r} 0 ${largeArc} 1 ${x2},${y2} L${x3},${y3} A${ir},${ir} 0 ${largeArc} 0 ${x4},${y4} Z`,
+    fill: ct.color,
+    label: ct.label,
+    value: ct.value,
+  };
+});
+
+const languages = [
+  ['JavaScript', 13968],
+  ['PHP', 9729],
+  ['JSX', 5221],
+  ['JSON', 4860],
+  ['Markdown', 2593],
+  ['SCSS', 2417],
+  ['Text', 1228],
+  ['Shell', 178],
+  ['YAML', 73],
+] as const;
+const langMax = 13968;
+
+const directories = [
+  ['abilities (JS)', 78],
+  ['components', 70],
+  ['abilities (PHP)', 58],
+  ['services', 56],
+  ['tests', 40],
+  ['includes', 37],
+  ['styles', 25],
+  ['security', 17],
+  ['workflows', 8],
+] as const;
+const dirMax = 78;
+
+const timeline = [
+  { time: '12:00', count: 1, day: 1 }, { time: '13:00', count: 4, day: 1 },
+  { time: '14:00', count: 16, day: 1 }, { time: '15:00', count: 18, day: 1 },
+  { time: '16:00', count: 20, day: 1 }, { time: '17:00', count: 14, day: 1 },
+  { time: '18:00', count: 6, day: 1 }, { time: '19:00', count: 1, day: 1 },
+  { time: '09:00', count: 6, day: 2 }, { time: '10:00', count: 5, day: 2 },
+  { time: '11:00', count: 15, day: 2 }, { time: '12:00', count: 25, day: 2 },
+  { time: '13:00', count: 13, day: 2 }, { time: '14:00', count: 18, day: 2 },
+  { time: '15:00', count: 13, day: 2 }, { time: '16:00', count: 15, day: 2 },
+  { time: '17:00', count: 13, day: 2 }, { time: '18:00', count: 7, day: 2 },
+  { time: '08:00', count: 5, day: 3 }, { time: '09:00', count: 7, day: 3 },
+  { time: '10:00', count: 21, day: 3 }, { time: '11:00', count: 7, day: 3 },
+  { time: '12:00', count: 7, day: 3 },
+];
+const maxCommits = 25;
+const dayColors: Record<number, string> = { 1: '#34d399', 2: '#818cf8', 3: '#a78bfa' };
+
+const bigCommits = [
+  { lines: '3,699', msg: 'fix: regenerate package-lock.json for Node 18 CI' },
+  { lines: '2,671', msg: 'feat: local RAG knowledge base with 4 sources' },
+  { lines: '1,723', msg: 'feat: E2E test runner with real ReAct loop' },
+  { lines: '1,479', msg: 'feat: local in-browser RAG for codebase search' },
+  { lines: '1,219', msg: 'feat: add external LLM provider support' },
+];
+
+const features = [
+  { title: 'Voice Mode', desc: 'Whisper STT with Space push-to-talk' },
+  { title: 'Local RAG Knowledge Base', desc: '4 sources with auto-consult' },
+  { title: 'WebMCP Bridge', desc: 'Expose abilities to external AI agents' },
+  { title: 'Security Scanning Suite', desc: 'Checksums, vulnerabilities, hacked-check' },
+  { title: 'Plugin Abilities Platform', desc: 'Discovery, bundles, fuzzy matching' },
+  { title: 'Content Creation', desc: 'LLM-powered content generation' },
+  { title: 'Feedback Collection', desc: 'Thumbs up/down with opt-in fine-tuning' },
+  { title: 'E2E Test Runner', desc: 'Real ReAct loop with WP REST API' },
+  { title: 'Gutenberg Sidebar', desc: 'AI chat in the block editor' },
+  { title: 'Admin Bar Integration', desc: 'AI toggle across all admin pages' },
+  { title: 'Web Search', desc: 'DuckDuckGo integration for context' },
+  { title: 'Settings & Context Window', desc: 'GPU-based recommendations, thinking mode' },
+  { title: 'Query Database', desc: 'Read-only SQL queries via chat' },
+  { title: 'External LLM Providers', desc: 'Remote model support with auto-reconnect' },
+  { title: 'Accessibility', desc: 'Enhanced a11y across components' },
+  { title: 'CI/CD Pipeline', desc: 'GitHub Actions quality workflow' },
+];
+---
+
+<BaseLayout title="Hackathon Stats — Agentic Admin for WP" description="3 days, 13 contributors, 257 commits — the full breakdown of the CloudFest Hackathon 2026.">
+  <Nav />
+  <main class="pt-24 pb-16">
+
+    <!-- Page Header -->
+    <header class="text-center px-5 mb-16">
+      <a href={base} class="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-300 transition-colors mb-8">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Back to home
+      </a>
+      <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight mb-3">
+        <span class="gradient-text-accent">Hackathon Stats</span>
+      </h1>
+      <p class="text-slate-500 text-lg">March 20&ndash;22, 2026 &middot; 3 days &middot; 13 contributors &middot; 1 privacy-first AI assistant</p>
+    </header>
+
+    <div class="section-container">
+
+      <!-- Top Stats Grid -->
+      <div class="stats-grid reveal">
+        {topStats.map((stat) => (
+          <div class="stat-card">
+            <div class="stat-number" style={`color: ${colorMap[stat.color]}`} data-target={stat.value}>0</div>
+            <div class="stat-label">{stat.label}</div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Code Velocity -->
+      <section class="card reveal">
+        <h2 class="section-heading">Code Velocity</h2>
+        <div class="velocity-grid">
+          {velocity.map((v) => (
+            <div class="velocity-card">
+              <div class="vel-num">{v.num}</div>
+              <div class="vel-unit">{v.unit}</div>
+              <div class="vel-label">{v.label}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- Day by Day -->
+      <section class="card reveal">
+        <h2 class="section-heading">Day by Day</h2>
+        <div class="day-grid">
+          {days.map((d) => (
+            <div class="day-card">
+              <div class="day-num" style={`color: ${d.color}`} data-target={d.commits}>0</div>
+              <div class="day-label-text">{d.label}</div>
+              <div class="day-lines">
+                <span style="color: #34d399">{d.added}</span>
+                &nbsp;
+                <span style="color: #f87171">{d.deleted}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- Two Column: Commit Types + Languages -->
+      <div class="two-col">
+        <section class="card reveal">
+          <h2 class="section-heading">Commit Types</h2>
+          <div class="donut-container">
+            <svg viewBox="0 0 120 120" width="160" height="160">
+              {donutPaths.map((p) => (
+                <path d={p.d} fill={p.fill} stroke="#0f1629" stroke-width="1" />
+              ))}
+              <text x="60" y="56" text-anchor="middle" fill="#e2e8f0" font-size="16" font-weight="700" font-family="'JetBrains Mono', monospace">257</text>
+              <text x="60" y="72" text-anchor="middle" fill="#64748b" font-size="7">commits</text>
+            </svg>
+            <div class="donut-legend">
+              {commitTypes.map((ct) => (
+                <div class="legend-item">
+                  <span class="legend-dot" style={`background: ${ct.color}`}></span>
+                  {ct.label}
+                  <span class="legend-count">{ct.value}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section class="card reveal">
+          <h2 class="section-heading">Code by Language</h2>
+          <div class="bar-chart">
+            {languages.map(([label, value]) => (
+              <div class="bar-row">
+                <div class="bar-label">{label}</div>
+                <div class="bar-track">
+                  <div class="bar-fill bar-fill-green" data-width={`${(value / langMax * 100).toFixed(1)}%`}></div>
+                  <div class="bar-value">{value.toLocaleString()}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
+
+      <!-- Activity Timeline -->
+      <section class="card reveal">
+        <h2 class="section-heading">Commit Activity Timeline</h2>
+        <div class="timeline">
+          {timeline.map((t) => (
+            <div class="tl-col">
+              <div class="tl-bar" style={`height: ${(t.count / maxCommits * 130)}px; background: ${dayColors[t.day]}`}>
+                <div class="tl-tip">{t.count} commits</div>
+              </div>
+              <div class="tl-time">{t.time}</div>
+            </div>
+          ))}
+        </div>
+        <div class="tl-day-labels">
+          <span>Mar 20 (afternoon)</span>
+          <span>Mar 21 (full day)</span>
+          <span>Mar 22 (morning)</span>
+        </div>
+      </section>
+
+      <!-- Two Column: Directories + Biggest Commits -->
+      <div class="two-col">
+        <section class="card reveal">
+          <h2 class="section-heading">Most Active Directories</h2>
+          <div class="bar-chart">
+            {directories.map(([label, value]) => (
+              <div class="bar-row">
+                <div class="bar-label">{label}</div>
+                <div class="bar-track">
+                  <div class="bar-fill bar-fill-purple" data-width={`${(value / dirMax * 100).toFixed(1)}%`}></div>
+                  <div class="bar-value">{value}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section class="card reveal">
+          <h2 class="section-heading">Biggest Commits</h2>
+          <div>
+            {bigCommits.map((c, i) => (
+              <div class="big-commit">
+                <span class="commit-rank">{i + 1}</span>
+                <span class="commit-lines">{c.lines}</span>
+                <span class="commit-msg">{c.msg}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
+
+      <!-- Features Shipped -->
+      <section class="card reveal">
+        <h2 class="section-heading">Features Shipped</h2>
+        <div class="features-grid">
+          {features.map((f) => (
+            <div class="feature-card">
+              <div class="feature-title">{f.title}</div>
+              <div class="feature-desc">{f.desc}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Footer note -->
+    <p class="text-center text-slate-600 text-sm mt-16">
+      Built with data from <strong class="text-slate-500">git log</strong> &middot; CloudFest Hackathon 2026
+    </p>
+
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  /* Stats Grid */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .stat-card {
+    background: #0f1629;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 1.25rem;
+    text-align: center;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .stat-card:hover {
+    transform: translateY(-3px);
+  }
+
+  .stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.2;
+  }
+
+  .stat-label {
+    color: #64748b;
+    font-size: 0.82rem;
+    margin-top: 0.25rem;
+  }
+
+  /* Cards / Sections */
+  .card {
+    background: #0f1629;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .section-heading {
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #818cf8 0%, #6366f1 40%, #8b5cf6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Two Column */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  .two-col .card {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 768px) {
+    .two-col {
+      grid-template-columns: 1fr;
+    }
+    .two-col .card {
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  /* Velocity */
+  .velocity-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  @media (max-width: 640px) {
+    .velocity-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .velocity-card {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+    padding: 1.25rem;
+    text-align: center;
+  }
+
+  .vel-num {
+    font-size: 1.8rem;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    color: #22d3ee;
+    line-height: 1.2;
+  }
+
+  .vel-unit {
+    font-size: 0.75rem;
+    color: #64748b;
+    margin-top: 0.15rem;
+  }
+
+  .vel-label {
+    font-size: 0.8rem;
+    color: #e2e8f0;
+    margin-top: 0.25rem;
+  }
+
+  /* Day by Day */
+  .day-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  @media (max-width: 640px) {
+    .day-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .day-card {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+    padding: 1.25rem;
+    text-align: center;
+  }
+
+  .day-num {
+    font-size: 2.2rem;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .day-label-text {
+    color: #64748b;
+    font-size: 0.85rem;
+  }
+
+  .day-lines {
+    font-size: 0.75rem;
+    margin-top: 0.4rem;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Bar Charts */
+  .bar-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .bar-label {
+    width: 130px;
+    flex-shrink: 0;
+    text-align: right;
+    padding-right: 0.75rem;
+    color: #64748b;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.8rem;
+  }
+
+  .bar-track {
+    flex: 1;
+    height: 22px;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
+    width: 0;
+  }
+
+  .bar-fill-green {
+    background: #34d399;
+  }
+
+  .bar-fill-purple {
+    background: #a78bfa;
+  }
+
+  .bar-value {
+    position: absolute;
+    right: 6px;
+    top: 2px;
+    font-size: 0.72rem;
+    color: #e2e8f0;
+    font-weight: 600;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Donut */
+  .donut-container {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .donut-legend {
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.82rem;
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .legend-count {
+    color: #64748b;
+    font-family: 'JetBrains Mono', monospace;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Timeline */
+  .timeline {
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 160px;
+    padding-top: 20px;
+  }
+
+  .tl-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    height: 100%;
+  }
+
+  .tl-bar {
+    width: 100%;
+    border-radius: 3px 3px 0 0;
+    min-width: 8px;
+    position: relative;
+    transition: opacity 0.2s;
+  }
+
+  .tl-bar:hover {
+    opacity: 0.75;
+  }
+
+  .tl-tip {
+    display: none;
+    position: absolute;
+    top: -24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #0a0e1a;
+    color: #e2e8f0;
+    font-size: 0.65rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    white-space: nowrap;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .tl-bar:hover .tl-tip {
+    display: block;
+  }
+
+  .tl-time {
+    font-size: 0.5rem;
+    color: #475569;
+    margin-top: 4px;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    height: 40px;
+  }
+
+  .tl-day-labels {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    color: #64748b;
+  }
+
+  /* Biggest Commits */
+  .big-commit {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 0.85rem;
+  }
+
+  .big-commit:last-child {
+    border-bottom: none;
+  }
+
+  .commit-rank {
+    color: #fbbf24;
+    font-weight: 700;
+    font-size: 1.1rem;
+    width: 24px;
+    text-align: center;
+    flex-shrink: 0;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .commit-lines {
+    color: #34d399;
+    font-weight: 600;
+    width: 60px;
+    text-align: right;
+    flex-shrink: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .commit-msg {
+    color: #64748b;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* Features */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .feature-card {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    border-left: 2px solid #6366f1;
+  }
+
+  .feature-title {
+    font-weight: 600;
+    font-size: 0.88rem;
+    color: #e2e8f0;
+  }
+
+  .feature-desc {
+    color: #64748b;
+    font-size: 0.78rem;
+    margin-top: 0.15rem;
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .bar-fill {
+      transition: none;
+    }
+    .stat-card {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  // Animated counters
+  function animateCounters() {
+    document.querySelectorAll<HTMLElement>('[data-target]').forEach((el) => {
+      const target = Number(el.dataset.target);
+      const duration = 1500;
+      const start = performance.now();
+      function tick(now: number) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.round(eased * target).toLocaleString();
+        if (progress < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    });
+  }
+
+  // Animate bar fills when visible
+  const barObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.querySelectorAll<HTMLElement>('.bar-fill[data-width]').forEach((el) => {
+            el.style.width = el.dataset.width!;
+          });
+          barObserver.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.2 }
+  );
+
+  document.querySelectorAll('.bar-chart').forEach((chart) => {
+    barObserver.observe(chart);
+  });
+
+  // Start counters
+  animateCounters();
+</script>

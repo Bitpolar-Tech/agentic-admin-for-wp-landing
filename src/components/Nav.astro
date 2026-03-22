@@ -1,10 +1,11 @@
 ---
+const base = import.meta.env.BASE_URL;
 const links = [
-  { href: '#features', label: 'Features' },
-  { href: '#how-it-works', label: 'How It Works' },
-  { href: '#abilities', label: 'Abilities' },
-  { href: '#compare', label: 'Compare' },
-  { href: '#get-started', label: 'Get Started' },
+  { href: `${base}#features`, label: 'Features' },
+  { href: `${base}#how-it-works`, label: 'How It Works' },
+  { href: `${base}#abilities`, label: 'Abilities' },
+  { href: `${base}#compare`, label: 'Compare' },
+  { href: `${base}#get-started`, label: 'Get Started' },
 ];
 ---
 
@@ -23,6 +24,9 @@ const links = [
           {link.label}
         </a>
       ))}
+      <a href={`${base}stats/`} class="text-sm font-medium text-purple-400 hover:text-purple-300 transition-colors">
+        Stats
+      </a>
       <a href="https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/pluginslab/wp-agentic-admin/main/.playground/blueprint.json" target="_blank" rel="noopener" class="text-sm font-medium text-indigo-400 hover:text-indigo-300 transition-colors">
         Try Demo &rarr;
       </a>
@@ -42,6 +46,9 @@ const links = [
           {link.label}
         </a>
       ))}
+      <a href={`${base}stats/`} class="text-sm font-medium text-purple-400 py-1.5">
+        Stats
+      </a>
       <a href="https://playground.wordpress.net/?blueprint-url=https://raw.githubusercontent.com/pluginslab/wp-agentic-admin/main/.playground/blueprint.json" target="_blank" rel="noopener" class="text-sm font-medium text-indigo-400 py-1.5">
         Try Demo &rarr;
       </a>

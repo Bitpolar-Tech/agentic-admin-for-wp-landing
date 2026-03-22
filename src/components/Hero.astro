@@ -1,4 +1,5 @@
 ---
+const base = import.meta.env.BASE_URL;
 const videos = [
   { src: 'videos/content-writer.mp4', label: 'AI Content Writer' },
   { src: 'videos/plugin-abilities.mp4', label: 'Plugin Abilities' },
@@ -41,10 +42,16 @@ const videos = [
         </div>
 
         <a href="https://hackathon.cloudfest.com/" target="_blank" rel="noopener" class="hackathon-badge mt-8 flex items-center gap-3 hover:opacity-80 transition-opacity">
-          <img src={`${import.meta.env.BASE_URL}images/cf-hackathon.png`} alt="CloudFest Hackathon" width="120" height="auto" class="hackathon-logo-small" />
+          <img src={`${base}images/cf-hackathon.png`} alt="CloudFest Hackathon" width="120" height="auto" class="hackathon-logo-small" />
           <span class="text-sm text-slate-500">Built during CloudFest Hackathon 2026</span>
         </a>
       </div>
+
+      <!-- Stats Badge -->
+      <a href={`${base}stats/`} class="stats-badge" aria-label="View hackathon stats: 257 commits in 3 days">
+        <span class="stats-badge-number">257</span>
+        <span class="stats-badge-label">commits<br/>in 3 days</span>
+      </a>
 
       <!-- Video Showcase -->
       <div class="hero-video-wrapper" id="hero-video-deck">
@@ -223,8 +230,88 @@ const videos = [
     opacity: 0.9;
   }
 
+  /* Stats Badge */
+  .stats-badge {
+    position: absolute;
+    top: 7rem;
+    right: 2rem;
+    z-index: 20;
+    width: 116px;
+    height: 116px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6366f1, #7c3aed);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: white;
+    box-shadow:
+      0 0 0 3px rgba(139, 92, 246, 0.3),
+      0 0 24px rgba(99, 102, 241, 0.3),
+      0 8px 32px rgba(0, 0, 0, 0.4);
+    animation: badge-float 3s ease-in-out infinite, badge-glow 2s ease-in-out infinite;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .stats-badge:hover {
+    transform: scale(1.1);
+    animation-play-state: paused;
+  }
+
+  .stats-badge-number {
+    font-size: 1.7rem;
+    font-weight: 800;
+    line-height: 1;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .stats-badge-label {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    line-height: 1.25;
+    text-align: center;
+    opacity: 0.85;
+    margin-top: 2px;
+  }
+
+  @keyframes badge-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-7px); }
+  }
+
+  @keyframes badge-glow {
+    0%, 100% {
+      box-shadow:
+        0 0 0 3px rgba(139, 92, 246, 0.25),
+        0 0 20px rgba(99, 102, 241, 0.2),
+        0 8px 32px rgba(0, 0, 0, 0.4);
+    }
+    50% {
+      box-shadow:
+        0 0 0 4px rgba(139, 92, 246, 0.5),
+        0 0 40px rgba(99, 102, 241, 0.45),
+        0 8px 32px rgba(0, 0, 0, 0.4);
+    }
+  }
+
   /* Responsive */
   @media (max-width: 1023px) {
+    .stats-badge {
+      position: relative;
+      top: auto;
+      right: auto;
+      margin: 1.5rem auto 0;
+      width: 96px;
+      height: 96px;
+    }
+    .stats-badge-number {
+      font-size: 1.4rem;
+    }
+    .stats-badge-label {
+      font-size: 0.55rem;
+    }
     .hero-video-deck {
       transform: none;
     }
@@ -249,6 +336,9 @@ const videos = [
     }
     .video-dot {
       transition: none;
+    }
+    .stats-badge {
+      animation: none;
     }
   }
 </style>
